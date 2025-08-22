@@ -6,3 +6,4 @@
     - essential
     - tailscale
     - docker
+    - zshrc_config

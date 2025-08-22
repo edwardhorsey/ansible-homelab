@@ -1,0 +1,42 @@
+- name: Install Zsh
+  package:
+    name: zsh
+    state: latest
+
+- name: Create .zsh directory for plugins
+  file:
+    path: "/home/ned/.zsh"
+    state: directory
+    mode: "0755"
+    owner: ned
+    group: ned
+
+- name: Clone the zshrc repository
+  git:
+    repo: "{{ zshrc_repo }}"
+    dest: "/home/ned/.zsh/zshrc"
+    force: yes
+  become_user: ned
+
+- name: Swap out the zshrc file
+  copy:
+    src: "/home/ned/.zsh/zshrc/.zshrc"
+    dest: /home/ned/.zshrc
+    remote_src: yes
+    owner: ned
+    group: ned
+  become_user: ned
+
+- name: Clone zsh plugins
+  git:
+    repo: "{{ item }}"
+    dest: "/home/ned/.zsh/{{ item | basename | splitext | first }}"
+    clone: yes
+    update: yes
+  become_user: ned
+  loop: "{{ zsh_plugins }}"
+
+- name: Set zsh as default shell for ned
+  user:
+    name: ned
+    shell: /bin/zsh
