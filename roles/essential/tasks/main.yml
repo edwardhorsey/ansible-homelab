@@ -30,13 +30,15 @@
 
 - name: Generate SSH key pair for Git
   community.crypto.openssh_keypair:
-    path: "{{ ansible_user_dir }}/.ssh/id_ed25519"
+    path: "/home/ned/.ssh/id_ed25519"
     type: ed25519
     comment: "{{ ansible_user }}@{{ ansible_hostname }}"
     state: present
+    owner: ned
+    group: ned
 
 - name: Display SSH public key
-  ansible.builtin.shell: cat "{{ ansible_user_dir }}/.ssh/id_ed25519.pub"
+  ansible.builtin.shell: cat "/home/ned/.ssh/id_ed25519.pub"
   register: ssh_public_key
 
 - name: Show the key
