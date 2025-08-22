@@ -3,3 +3,5 @@ packages:
   - vim
   - htop
   - cifs-utils
+  - zip
+  - unzip
