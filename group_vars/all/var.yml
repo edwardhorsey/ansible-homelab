@@ -5,3 +5,4 @@ packages:
   - cifs-utils
   - zip
   - unzip
+  - gpg
