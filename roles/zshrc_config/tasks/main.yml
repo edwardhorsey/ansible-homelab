@@ -5,38 +5,38 @@
 
 - name: Create .zsh directory for plugins
   file:
-    path: "/home/ned/.zsh"
+    path: "/home/{{ username }}/.zsh"
     state: directory
     mode: "0755"
-    owner: ned
-    group: ned
+    owner: '{{ username }}'
+    group: '{{ username }}'
 
 - name: Clone the zshrc repository
   git:
     repo: "{{ zshrc_repo }}"
-    dest: "/home/ned/.zsh/zshrc"
+    dest: "/home/{{ username }}/.zsh/zshrc"
     force: yes
-  become_user: ned
+  become_user: '{{ username }}'
 
 - name: Swap out the zshrc file
   copy:
-    src: "/home/ned/.zsh/zshrc/.zshrc"
-    dest: /home/ned/.zshrc
+    src: "/home/{{ username }}/.zsh/zshrc/.zshrc"
+    dest: /home/{{ username }}/.zshrc
     remote_src: yes
-    owner: ned
-    group: ned
-  become_user: ned
+    owner: '{{ username }}'
+    group: '{{ username }}'
+  become_user: '{{ username }}'
 
 - name: Clone zsh plugins
   git:
     repo: "{{ item }}"
-    dest: "/home/ned/.zsh/{{ item | basename | splitext | first }}"
+    dest: "/home/{{ username }}/.zsh/{{ item | basename | splitext | first }}"
     clone: yes
     update: yes
-  become_user: ned
+  become_user: '{{ username }}'
   loop: "{{ zsh_plugins }}"
 
-- name: Set zsh as default shell for ned
+- name: Set zsh as default shell for {{ username }}
   user:
-    name: ned
+    name: '{{ username }}'
     shell: /bin/zsh

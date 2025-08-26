@@ -15,11 +15,11 @@
     line: "PasswordAuthentication no"
   register: sshd_config
 
-- name: Enable passwordless sudo for {{ username }}
+- name: Enable passwordless sudo for '{{ username }}'
   lineinfile:
     dest: /etc/sudoers
     regexp: "^%wheel"
-    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    line: "'{{ username }}' ALL=(ALL) NOPASSWD: ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
 - name: Restart SSH service
@@ -30,15 +30,15 @@
 
 - name: Generate SSH key pair for Git
   community.crypto.openssh_keypair:
-    path: "/home/ned/.ssh/id_ed25519"
+    path: "/home/{{ username }}/.ssh/id_ed25519"
     type: ed25519
     comment: "{{ ansible_user }}@{{ ansible_hostname }}"
     state: present
-    owner: ned
-    group: ned
+    owner: '{{ username }}'
+    group: '{{ username }}'
 
 - name: Display SSH public key
-  ansible.builtin.shell: cat "/home/ned/.ssh/id_ed25519.pub"
+  ansible.builtin.shell: cat "/home/{{ username }}/.ssh/id_ed25519.pub"
   register: ssh_public_key
 
 - name: Show the key
