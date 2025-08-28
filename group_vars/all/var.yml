@@ -1,4 +1,4 @@
-username: ned
+username: <username>
 packages: 
   - vim
   - htop
