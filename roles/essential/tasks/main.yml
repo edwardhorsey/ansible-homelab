@@ -44,3 +44,10 @@
 - name: Show the key
   ansible.builtin.debug:
     msg: "{{ ssh_public_key.stdout }}"
+
+- name: Set Vim as git editor
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: vim
+  become_user: '{{ username }}'
