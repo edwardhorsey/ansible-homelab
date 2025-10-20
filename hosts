@@ -1,7 +1,8 @@
 [home]
-homeserver ansible_host=<server_ip>
+server1 ansible_host=<server_ip>
+server2 ansible_host=<server_ip>
 
 [home:vars]
 ansible_user=<username>
 ansible_connection=ssh
-ansible_ssh_private_key=<path/to/key>
+ansible_ssh_private_key_file=<path/to/key>
